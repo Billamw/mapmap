@@ -1,0 +1,71 @@
+name: Windows build (Qt 5.15.2 MSVC 2019)
+
+on:
+  workflow_dispatch: {}
+  push:
+    branches: [ main, master ]
+  pull_request:
+
+jobs:
+  build-windows:
+    runs-on: windows-2019   # MSVC 2019 + compat Qt 5.15.2
+    env:
+      QT_VERSION: '5.15.2'
+      BUILD_DIR: build
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # Instala Qt 5.15.2 + WebEngine (open source) en el runner
+      - name: Install Qt
+        uses: jurplel/install-qt-action@v4
+        with:
+          version: ${{ env.QT_VERSION }}
+          host: windows
+          target: desktop
+          arch: win64_msvc2019_64
+          modules: qtwebengine qtwebchannel qttools qtdeclarative qtmultimedia
+          setup-python: false
+          cache: true
+
+      # Prepara el entorno de MSVC (nmake, etc.)
+      - name: Set up MSVC devcmd
+        uses: ilammy/msvc-dev-cmd@v1
+        with:
+          toolset: 14.29  # el que trae windows-2019
+
+      - name: Configure (qmake)
+        shell: cmd
+        run: |
+          rmdir /s /q %BUILD_DIR% 2>nul
+          mkdir %BUILD_DIR%
+          cd %BUILD_DIR%
+          qmake ..   # mapmap.pro está en la raíz
+
+      - name: Build (nmake Release)
+        shell: cmd
+        run: |
+          cd %BUILD_DIR%
+          nmake
+
+      # Empaqueta dependencias Qt (DLLs, QML, WebEngine, etc.)
+      - name: Deploy (windeployqt)
+        shell: cmd
+        run: |
+          cd %BUILD_DIR%\release
+          windeployqt.exe --release --qmldir ..\..\src mapmap.exe
+
+      # Crea ZIP portable
+      - name: Pack artifact
+        shell: powershell
+        run: |
+          Compress-Archive -Path "${{ env.BUILD_DIR }}\release\*" -DestinationPath "mapmap-windows-portable.zip"
+
+      # Sube el ZIP como artifact descargable
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: mapmap-windows-portable
+          path: mapmap-windows-portable.zip
+          if-no-files-found: error
