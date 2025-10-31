@@ -1,5 +1,7 @@
 include(../src.pri)
 
+DEFINES += QOSC_LIBRARY
+
 HEADERS += $$PWD/ConcurrentQueue.h \
     $$PWD/OscInterface.h
 

@@ -37,7 +37,7 @@
 
 #include "Paint.h"
 #include "Mapping.h"
-#include "MapperGLCanvas.h"
+
 
 namespace mmp {
 
