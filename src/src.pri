@@ -52,12 +52,13 @@ macx {
 win32 {
   DEFINES += WIN32
   TARGET = ../../../MapMap/MapMap # Just for release
-  GST_HOME = $$quote($$(GSTREAMER_1_0_ROOT_X86))
+  QMAKE_CXXFLAGS += /FI\"$${PWD}/core/win_gl_fix.h\"
+  GST_HOME = $$quote($$(GSTREAMER_1_0_ROOT_X86_64))
   isEmpty(GST_HOME) {
-    message(\"GSTREAMER_1_0_ROOT_X86\" not detected ...)
+    message(\"GSTREAMER_1_0_ROOT_X86_64\" not detected ...)
   }
   else {
-    message(\"GSTREAMER_1_0_ROOT_X86\" detected in \"$${GST_HOME}\")
+    message(\"GSTREAMER_1_0_ROOT_X86_64\" detected in \"$${GST_HOME}\")
   }
 
   INCLUDEPATH += $${GST_HOME}/lib/gstreamer-1.0/include \

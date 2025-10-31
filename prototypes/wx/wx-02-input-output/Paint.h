@@ -22,7 +22,8 @@
 #define PAINT_H_
 
 #include <wx/wx.h>
-#include <GL/gl.h>
+#include <windows.h>
+#include <gl/gl.h>
 #include <SOIL/SOIL.h>
 
 class Paint

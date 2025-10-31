@@ -27,7 +27,8 @@
 #if __APPLE__
 #include <OpenGL/gl.h>
 #else
-#include <GL/gl.h>
+#include <windows.h>
+#include <gl/gl.h>
 #endif
 
 #include <stdlib.h>

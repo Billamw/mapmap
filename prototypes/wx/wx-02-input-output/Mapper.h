@@ -27,7 +27,8 @@
 #include <tr1/memory>
 
 #include <wx/wx.h>
-#include <GL/gl.h>
+#include <windows.h>
+#include <gl/gl.h>
 #include <SOIL/SOIL.h>
 #include <stdlib.h>
 #include <stdio.h>

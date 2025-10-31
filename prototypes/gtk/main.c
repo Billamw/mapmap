@@ -19,7 +19,8 @@
 #ifdef GDK_WINDOWING_QUARTZ
 #include <OpenGL/glu.h>
 #else
-#include <GL/gl.h>
+#include <windows.h>
+#include <gl/gl.h>
 #include <GL/glu.h>
 #endif
 
