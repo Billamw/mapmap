@@ -254,6 +254,8 @@ int main(int argc, char *argv[])
 #endif
 
   // Start app.
+  std::cout<<"Start Test";
+  qDebug() << "wtffff";
   int result = app.exec();
 
   delete win;
