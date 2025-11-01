@@ -25,7 +25,6 @@
 
 #include <QCamera>
 #include <QCameraInfo>
-#include <iostream>
 
 namespace mmp {
 

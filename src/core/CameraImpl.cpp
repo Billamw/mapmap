@@ -38,28 +38,22 @@ CameraImpl::~CameraImpl()
 bool CameraImpl::loadMovie(const QString &deviceName)
 {
   VideoImpl::loadMovie(deviceName);
-  std::cout << "device:" + deviceName.toStdString() << "";
+
   _camera = new QCamera(deviceName.toLocal8Bit());
-  std::cout << "camera" + _camera->errorString().toStdString() << "";
 
   _cameraSurface = new CameraSurface();
 
   _camera->setViewfinder(_cameraSurface);
 
-  if (_camera->isAvailable()) {
-    std::cout << "avaiable\n";
+  if (_camera->isAvailable())
     _camera->start();
-  }
 
-  if (_camera->state() == QCamera::ActiveState){
-    std::cout << "active\n" << "";
+  if (_camera->state() == QCamera::ActiveState)
     return true;
-  }
 
-  if (_camera->error() != QCamera::NoError) {
+  if (_camera->error() != QCamera::NoError)
     QMessageBox(QMessageBox::Critical, "Camera Error",
                 "Failed to start: " + _camera->errorString()).exec();
-  }
 
   return false;
 }

@@ -212,7 +212,6 @@ Video::Video(const QString uri_, VideoType type, double rate, uid id):
       _impl = new VideoShmSrcImpl();
       break;
   }
-    std::cout << "\nadd mesh here maybe?\n";
   setRate(rate);
   setVolume(1);
   setUri(uri_);
@@ -304,7 +303,6 @@ bool Video::hasVideoSupport()
 
 bool Video::setUri(const QString &uri)
 {
-	std::cout << "setUri called with uri: " + uri.toStdString() + "\n";
   QSettings settings;
   bool sameMediaSourceOSC = settings.value("oscSameMediaSource").toBool();
   // Check if we're actually changing the uri.
@@ -315,14 +313,12 @@ bool Video::setUri(const QString &uri)
     // Try to load movie.
     if (!_impl->loadMovie(uri))
     {
-        std::cout <<"loadMovie was successful\n\n";
       qDebug() << "Cannot load movie " << uri << "." << endl;
       return false;
     }
 
     // Set uri.
     _uri = uri;
-    std::cout<<"new _uri:" + _uri.toStdString() + "\n";
 
     // Try to get thumbnail.
     // Wait for the first samples to be available to make sure we are ready.
